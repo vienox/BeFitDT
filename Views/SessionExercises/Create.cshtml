@@ -1,0 +1,61 @@
+@model SessionExerciseFormViewModel
+@{
+    ViewData["Title"] = "Dodaj ćwiczenie";
+    var hasSessions = Model.Sessions.Any();
+    var hasExerciseTypes = Model.ExerciseTypes.Any();
+    var canCreate = hasSessions && hasExerciseTypes;
+}
+
+<h1>Dodaj ćwiczenie do sesji</h1>
+
+@if (!hasSessions)
+{
+    <div class="alert alert-warning">
+        Nie masz jeszcze żadnych sesji treningowych. <a asp-controller="TrainingSessions" asp-action="Create">Utwórz sesję</a>, aby móc dodać ćwiczenia.
+    </div>
+}
+
+@if (!hasExerciseTypes)
+{
+    <div class="alert alert-warning">
+        Brak dostępnych typów ćwiczeń. Poproś administratora o ich dodanie.
+    </div>
+}
+
+@if (canCreate)
+{
+    <form asp-action="Create" method="post" class="mt-4">
+        <div class="mb-3">
+            <label asp-for="SessionExercise.TrainingSessionId" class="form-label">Sesja treningowa</label>
+            <select asp-for="SessionExercise.TrainingSessionId" asp-items="Model.Sessions" class="form-select"></select>
+            <span asp-validation-for="SessionExercise.TrainingSessionId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SessionExercise.ExerciseTypeId" class="form-label">Typ ćwiczenia</label>
+            <select asp-for="SessionExercise.ExerciseTypeId" asp-items="Model.ExerciseTypes" class="form-select"></select>
+            <span asp-validation-for="SessionExercise.ExerciseTypeId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SessionExercise.Weight" class="form-label"></label>
+            <input asp-for="SessionExercise.Weight" class="form-control" />
+            <span asp-validation-for="SessionExercise.Weight" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SessionExercise.Sets" class="form-label"></label>
+            <input asp-for="SessionExercise.Sets" class="form-control" />
+            <span asp-validation-for="SessionExercise.Sets" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SessionExercise.Repetitions" class="form-label"></label>
+            <input asp-for="SessionExercise.Repetitions" class="form-control" />
+            <span asp-validation-for="SessionExercise.Repetitions" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Dodaj ćwiczenie</button>
+        <a asp-action="Index" class="btn btn-link">Anuluj</a>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

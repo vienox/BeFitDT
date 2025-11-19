@@ -1,0 +1,42 @@
+@model IEnumerable<BeFit.Models.SessionExercise>
+@{
+    ViewData["Title"] = "Ćwiczenia";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Ćwiczenia</h1>
+    <a asp-action="Create" class="btn btn-primary">Dodaj ćwiczenie</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-secondary">
+        Nie dodano jeszcze żadnego ćwiczenia w sesjach treningowych.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Sesja</th>
+            <th>Ćwiczenie</th>
+            <th>Ciężar (kg)</th>
+            <th>Serie</th>
+            <th>Powtórzenia</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var exercise in Model)
+        {
+            <tr>
+                <td>@exercise.TrainingSession?.StartTime.ToString("g")</td>
+                <td>@exercise.ExerciseType?.Name</td>
+                <td>@exercise.Weight</td>
+                <td>@exercise.Sets</td>
+                <td>@exercise.Repetitions</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,37 @@
+@model IEnumerable<BeFit.Models.ExerciseType>
+@{
+    ViewData["Title"] = "Typy ćwiczeń";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Typy ćwiczeń</h1>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-primary">Dodaj typ ćwiczenia</a>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Brak zdefiniowanych ćwiczeń. Dodaj pierwszy typ, aby rozpocząć.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nazwa</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

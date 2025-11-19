@@ -1,0 +1,53 @@
+@model BeFit.Models.TrainingSession
+@{
+    ViewData["Title"] = "Szczegóły sesji";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Szczegóły sesji</h1>
+    <a asp-controller="SessionExercises" asp-action="Create" asp-route-sessionId="@Model.Id" class="btn btn-primary">
+        Dodaj ćwiczenie
+    </a>
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Początek</dt>
+    <dd class="col-sm-9">@Model.StartTime.ToString("f")</dd>
+    <dt class="col-sm-3">Koniec</dt>
+    <dd class="col-sm-9">@Model.EndTime.ToString("f")</dd>
+</dl>
+
+<h4 class="mt-4">Ćwiczenia</h4>
+
+@if (Model.Exercises == null || !Model.Exercises.Any())
+{
+    <div class="alert alert-secondary">
+        Brak ćwiczeń przypisanych do tej sesji.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nazwa ćwiczenia</th>
+            <th>Ciężar (kg)</th>
+            <th>Serie</th>
+            <th>Powtórzenia</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var exercise in Model.Exercises)
+        {
+            <tr>
+                <td>@exercise.ExerciseType?.Name</td>
+                <td>@exercise.Weight</td>
+                <td>@exercise.Sets</td>
+                <td>@exercise.Repetitions</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-link mt-3">Powrót do listy</a>
