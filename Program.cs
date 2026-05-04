@@ -33,19 +33,18 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    ;
 
 app.MapRazorPages()
-   .WithStaticAssets();
+   ;
 
 // Ensure the database is created/migrated before trying to seed roles/users.
 using (var scope = app.Services.CreateScope())
